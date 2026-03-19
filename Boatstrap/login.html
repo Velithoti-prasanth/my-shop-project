@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="./../bootstrap-5.3.8-dist/css/bootstrap.css">
+
+<style>
+body {
+    background: url(images/login-1.jpg);
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    color: white;
+}
+.form-control {
+    border-radius: 10px;
+}
+.btn-primary {
+    width: 100%;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-md-5">
+
+<div class="card p-4">
+
+<h3 class="text-center">Welcome Back 👋</h3>
+<p class="text-center">Login to your account</p>
+
+<!-- Demo Credentials -->
+<p class="text-black text-center small">
+Demo: admin@gmail.com / 1234
+</p>
+
+<form onsubmit="handleLogin(event)">
+
+<input type="email" id="email" class="form-control mb-3" placeholder="Enter email">
+<input type="password" id="password" class="form-control mb-3" placeholder="Enter password">
+
+<button class="btn btn-primary">Login</button>
+
+<p class="text-center mt-3">
+Don’t have an account? <a href="register.html" class="text-white">Register</a>
+</p>
+
+<div id="errorMsg" class="text-danger text-center"></div>
+
+</form>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const demoUser = {
+    email: "admin@gmail.com",
+    password: "1234"
+};
+
+function handleLogin(e) {
+    e.preventDefault();
+
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let error = document.getElementById("errorMsg");
+
+    error.textContent = "";
+
+    // Demo login
+    if (email === demoUser.email && password === demoUser.password) {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "index.html";
+        return;
+    }
+
+    // Check registered users
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    let valid = users.find(u => u.email === email && u.password === password);
+
+    if (valid) {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "index.html";
+    } else {
+        error.textContent = "Invalid email or password";
+    }
+}
+</script>
+
+</body>
+</html>
